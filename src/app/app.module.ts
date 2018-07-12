@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -19,6 +19,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthService } from './auth.service';
+import { AuthguardService } from './authguard.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'products', component: ProductsComponent },
@@ -49,7 +51,7 @@ const routes: Routes = [
     BrowserModule,
     NgbModule.forRoot(),
     AngularFireDatabaseModule,
-    RouterModule.forRoot( [
+    RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'shopping-cart', component: ShoppingCartComponent },
@@ -64,7 +66,7 @@ const routes: Routes = [
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthService, AuthguardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
