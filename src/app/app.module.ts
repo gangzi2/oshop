@@ -21,6 +21,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { AuthguardService } from './authguard.service';
+
+
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'products', component: ProductsComponent },
@@ -55,12 +58,13 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'shopping-cart', component: ShoppingCartComponent },
-      { path: 'check-out', component: CheckOutComponent },
-      { path: 'my/orders', component: MyOrdersComponent },
-      { path: 'order-success', component: OrderSuccessComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'admin/products', component: AdminProductsComponent },
-      { path: 'admin/orders', component: AdminOrdersComponent },
+
+      { path: 'check-out', component: CheckOutComponent, canActivate: [AuthguardService] },
+      { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthguardService] },
+      { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthguardService] },
+      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthguardService] },
+      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthguardService] },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
