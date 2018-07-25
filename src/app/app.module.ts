@@ -1,3 +1,4 @@
+import { CategoryService } from './category.service';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { RouterModule, Routes } from '@angular/router';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
@@ -21,6 +22,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { AuthguardService } from './authguard.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 
 
@@ -48,7 +50,8 @@ const routes: Routes = [
     MyOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    LoginComponent
+    LoginComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -64,13 +67,14 @@ const routes: Routes = [
       { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthguardService] },
       { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthguardService] },
       { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthguardService] },
+      { path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthguardService] },
       { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthguardService] },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule
   ],
-  providers: [AuthService, AuthguardService],
+  providers: [AuthService, AuthguardService, CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
