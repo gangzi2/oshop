@@ -1,3 +1,4 @@
+import { ProductService } from './product.service';
 import { CategoryService } from './category.service';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { RouterModule, Routes } from '@angular/router';
@@ -23,7 +24,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { AuthguardService } from './authguard.service';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
-
+import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
 
 
 const routes: Routes = [
@@ -66,15 +68,18 @@ const routes: Routes = [
       { path: 'check-out', component: CheckOutComponent, canActivate: [AuthguardService] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthguardService] },
       { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthguardService] },
-      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthguardService] },
       { path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthguardService] },
+      { path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthguardService] },
+      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthguardService] },
       { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthguardService] },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    FormsModule,
+    CustomFormsModule
   ],
-  providers: [AuthService, AuthguardService, CategoryService],
+  providers: [AuthService, AuthguardService, CategoryService, ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
