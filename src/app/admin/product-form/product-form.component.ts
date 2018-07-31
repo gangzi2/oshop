@@ -12,12 +12,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ProductFormComponent implements OnInit {
   categories$;
-  product = {
-    title: '',
-    catetory: '',
-    imageUrl: '',
-    price: ''
-  };
+  product = {};
+  id;
   constructor(
     categoryService: CategoryService,
     private productService: ProductService,
@@ -26,9 +22,16 @@ export class ProductFormComponent implements OnInit {
   ) {
 
     this.categories$ = categoryService.getCategories();
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.productService.get(id).valueChanges().subscribe(p => this.product = p);
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.productService.get(this.id).valueChanges().subscribe(p => this.product = p);
+    } else {
+      this.product = {
+        title: '',
+        catetory: '',
+        imageUrl: '',
+        price: ''
+      };
     }
   }
 
@@ -36,7 +39,19 @@ export class ProductFormComponent implements OnInit {
   }
 
   save(product) {
-    this.productService.create(product);
+
+    if (this.id) {
+      this.productService.update(this.id, product);
+    } else {
+      this.productService.create(product);
+    }
+    this.router.navigate(['/admin/products']);
+  }
+  delete() {
+    if (!confirm('Are your sure that you want to delete it? ')) {
+      return;
+    }
+    this.productService.delete(this.id);
     this.router.navigate(['/admin/products']);
   }
 }
